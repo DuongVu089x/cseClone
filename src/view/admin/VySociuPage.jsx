@@ -2,12 +2,15 @@ import React from "react";
 import { connect } from "react-redux";
 import { getAll, deletevySociu, createVySociu } from "../redux/vySociu.jsx";
 import { Link } from "react-router-dom";
+import socketIOClient from "socket.io-client";
 
 class ItemModal extends React.Component {
   constructor(props) {
     super(props);
     this.show = this.show.bind(this);
     this.save = this.save.bind(this);
+
+    this.socket = socketIOClient("192.168.1.23:5000");
 
     this.modal = React.createRef();
     this.btnSave = React.createRef();
@@ -40,7 +43,7 @@ class ItemModal extends React.Component {
       .val()
       .trim();
 
-    console.log(this.props);
+    // console.log(this.props);
     if (VySociuName == "") {
       T.notify("Tên nhóm VySociu bị trống!", "danger");
       $("#VySociuName").focus();
@@ -54,8 +57,10 @@ class ItemModal extends React.Component {
           age: VySociuAge
         },
         data => {
+          console.log(data);
           if (data.error == undefined || data.error == null) {
             $(this.modal.current).modal("hide");
+            this.socket.emit("demo", data.VySociu); // change 'red' to this.state.color
             if (data.VySociu) {
               this.props.showVySociu(data.VySociu);
             }
@@ -135,6 +140,14 @@ class VySociuPage extends React.Component {
     this.getData = this.getData.bind(this);
     this.show = this.show.bind(this);
     this.delete = this.delete.bind(this);
+
+    const socket = socketIOClient("192.168.1.23:5000");
+    // socket.emit("demo", "some text here"); // change 'red' to this.state.color
+
+    socket.on("vysociu:load-item", data => {
+      console.log(123, data);
+      this.getData();
+    });
   }
 
   componentDidMount() {

@@ -189,6 +189,12 @@ class AdminMenu extends React.Component {
                   Nói về Vy Sociu
                 </Link>
               </li>
+              <li>
+                <Link className="treeview-item" to="/admin/demo2">
+                  <i className="icon fa fa-circle-o" />
+                  Demo2
+                </Link>
+              </li>
             </ul>
           </li>
           <li className="treeview">

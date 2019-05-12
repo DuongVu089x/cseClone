@@ -98,6 +98,7 @@ class VySociuEditPage extends React.Component {
     );
   }
 }
+
 const mapStateToProps = state => ({ vySociu: state.vySociu });
 const mapActionsToProps = { getVySociuItem };
 export default connect(

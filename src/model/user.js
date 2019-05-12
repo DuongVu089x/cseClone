@@ -8,9 +8,15 @@ module.exports = app => {
         password: String,
         phoneNumber: String,
         image: String,
-        role: { type: String, enum: ['admin', 'editor', 'user'] },
+        role: {
+            type: String,
+            enum: ['admin', 'editor', 'user']
+        },
         personalId: String,
-        active: { type: Boolean, default: false },
+        active: {
+            type: Boolean,
+            default: false
+        },
         createdDate: Date,
         token: String,
         tokenDate: Date
@@ -23,7 +29,9 @@ module.exports = app => {
     app.model.user = {
         hashPassword: password => app.crypt.hashSync(password, app.crypt.genSaltSync(8), null),
 
-        auth: (email, password, done) => model.findOne({ email }, (error, user) =>
+        auth: (email, password, done) => model.findOne({
+                email
+            }, (error, user) =>
             done(error == null && user != null && user.equalPassword(password) ? user : null)),
 
         create: (data, done) => app.model.user.getByEmail(data.email, (error, user) => {
@@ -80,9 +88,13 @@ module.exports = app => {
         get: (_id, done) => model.findById(_id, done),
         getAll: done => model.find({}, done),
 
-        getByEmail: (email, done) => model.findOne({ email }, done),
+        getByEmail: (email, done) => model.findOne({
+            email
+        }, done),
 
-        getByPhoneNumber: (phoneNumber, done) => model.findOne({ phoneNumber }, done),
+        getByPhoneNumber: (phoneNumber, done) => model.findOne({
+            phoneNumber
+        }, done),
 
         update: (_id, changes, done) => {
             const updateProfile = () => {
@@ -90,10 +102,10 @@ module.exports = app => {
                 model.findOneAndUpdate({
                     _id
                 }, {
-                        $set: changes
-                    }, {
-                        new: true
-                    }, done);
+                    $set: changes
+                }, {
+                    new: true
+                }, done);
             };
 
             if (changes.email) {

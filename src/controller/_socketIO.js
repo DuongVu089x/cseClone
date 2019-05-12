@@ -82,5 +82,16 @@ module.exports = app => {
                 }
                 socket.emit('contact:message', error);
             }));
+
+
+        // Receive token of mobile -------------------------------------------------------------------------------------
+        socket.on('user:auth-change', data => {
+            console.log(data)
+        });
+
+        socket.on('demo', data => {
+            console.log("emit data")
+            socket.broadcast.emit('vysociu:load-item', data);
+        });
     };
 };

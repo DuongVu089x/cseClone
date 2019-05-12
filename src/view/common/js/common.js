@@ -15,9 +15,15 @@ const getCookiePageName = (cookieName) => {
 
 let T = {
     PropTypes,
-    roles: ['admin', 'editor', 'user'],
-    questionTypes: {text: 'Văn bản',choice: 'Lựa chọn'},
-    divisionTypes: { department: 'Bộ môn', lab: 'Phòng thí nghiệm' },
+    roles: ['admin', 'editor', 'user', 'mod'],
+    questionTypes: {
+        text: 'Văn bản',
+        choice: 'Lựa chọn'
+    },
+    divisionTypes: {
+        department: 'Bộ môn',
+        lab: 'Phòng thí nghiệm'
+    },
     pageTypes: [
         '<empty>',
         'carousel', 'hot', 'slogan', 'video', 'statistic', 'staff group', 'testimony', 'all divisions', 'last news',
@@ -138,7 +144,14 @@ let T = {
     socket: io(),
     routeMatcher: routeMatcherLib.routeMatcher,
 
-    notify: (message, type) => $.notify({ message }, { type, placement: { from: 'bottom' } }),
+    notify: (message, type) => $.notify({
+        message
+    }, {
+        type,
+        placement: {
+            from: 'bottom'
+        }
+    }),
 
     alert: (text, icon, button, timer) => {
         let options = {};
@@ -186,10 +199,23 @@ let T = {
             done = dangerMode;
             dangerMode = false;
         }
-        swal({ icon, title, text, dangerMode, buttons: { cancel: true, confirm: true }, }).then(done);
+        swal({
+            icon,
+            title,
+            text,
+            dangerMode,
+            buttons: {
+                cancel: true,
+                confirm: true
+            },
+        }).then(done);
     },
 
-    dateFormat: { format: 'dd/mm/yyyy hh:ii', autoclose: true, todayBtn: true },
+    dateFormat: {
+        format: 'dd/mm/yyyy hh:ii',
+        autoclose: true,
+        todayBtn: true
+    },
     formatDate: str => {
         try {
             let [strDate, strTime] = str.split(' '),

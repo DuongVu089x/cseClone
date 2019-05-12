@@ -1,16 +1,27 @@
 module.exports = app => {
-  app.get("/admin/vySociu/all", app.role.isAdmin, (req, res) => {
-    // app.model.vySociuItem.create((error) => {
-    //     console.log(error);
-    // })
+  app.get(
+    "/admin/vySociu/all",
+    app.role.isAdmin,
+    app.acceptTeacherAndParentAdAdmin,
+    (req, res) => {
+      // app.model.vySociuItem.create((error) => {
+      //     console.log(error);
+      // })
 
-    app.model.vySociuItem.getAll((error, items) => {
-      res.send({
-        error,
-        items
+      console.log(app.role);
+      app.model.userMod.getMathOfUser(req.session.user.id, (error, data) => {
+        console.log(error);
+        console.log(data);
       });
-    });
-  });
+
+      app.model.vySociuItem.getAll((error, items) => {
+        res.send({
+          error,
+          items
+        });
+      });
+    }
+  );
 
   app.get("/admin/vySociu/item/:vySociuId", app.role.isAdmin, (req, res) =>
     app.model.vySociuItem.get(req.params.vySociuId, (error, item) =>
@@ -22,17 +33,18 @@ module.exports = app => {
   );
 
   app.post("/admin/vySociu", app.role.isAdmin, (req, res) => {
-    console.log(req.body)
-    app.model.vySociuItem.create({
+    console.log(req.body);
+    app.model.vySociuItem.create(
+      {
         name: req.body.data.name,
         age: req.body.data.age
       },
       (error, item) =>
-      res.send({
-        error,
-        item
-      })
-    )
+        res.send({
+          error,
+          item
+        })
+    );
   });
 
   app.put("/admin/vySociu", app.role.isAdmin, (req, res) =>

@@ -15,7 +15,8 @@ module.exports = app => {
         '/admin/news/category', '/admin/news/list', '/admin/news/edit/:newsId',
         '/admin/contact', '/admin/contact/read/:contactId',
         '/admin/subscriber',
-        '/admin/vySociu', '/admin/vySociu/edit/:vySociuId'
+        '/admin/vySociu', '/admin/vySociu/edit/:vySociuId',
+        '/admin/demo2', '/admin/demo2/edit/:demo2Id'
     ].forEach(route => app.get(route, app.role.isAdmin, (req, res) => app.createResponse(req, res, '/admin.template')));
 
     app.put('/admin/system', app.role.isAdmin, (req, res) => {

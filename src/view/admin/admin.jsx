@@ -28,6 +28,7 @@ import video, { changeVideo } from "../redux/video.jsx";
 import news from "../redux/news.jsx";
 import contact from "../redux/contact.jsx";
 import vySociu from "../redux/vySociu.jsx";
+import demo2 from "../redux/demo2.jsx";
 
 import statistic from "../redux/statistic.jsx";
 import testimony from "../redux/testimony.jsx";
@@ -57,7 +58,8 @@ const allReducers = combineReducers({
   contact,
   category,
   news,
-  vySociu
+  vySociu,
+  demo2
 });
 const store = createStore(
   allReducers,
@@ -272,6 +274,20 @@ class Router extends React.Component {
         component: Loadable({
           loading: Loading,
           loader: () => import("./VySociuPage.jsx")
+        })
+      },
+      {
+        path: "/admin/demo2/edit/:demo2Id",
+        component: Loadable({
+          loading: Loading,
+          loader: () => import("./demo2EditPage.jsx")
+        })
+      },
+      {
+        path: "/admin/demo2",
+        component: Loadable({
+          loading: Loading,
+          loader: () => import("./demo2Page.jsx")
         })
       },
       {

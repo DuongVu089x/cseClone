@@ -2,15 +2,23 @@ module.exports = app => {
     const schema = app.db.Schema({
         title: String,
         height: Number,
-        single: { type: Boolean, default: true },
-        active: { type: Boolean, default: false },
+        single: {
+            type: Boolean,
+            default: true
+        },
+        active: {
+            type: Boolean,
+            default: false
+        },
     });
     const model = app.db.model('Carousel', schema);
 
     app.model.carousel = {
         create: (data, done) => model.create(data, done),
 
-        getAll: done => model.find({}).sort({ title: -1 }).exec(done),
+        getAll: done => model.find({}).sort({
+            title: -1
+        }).exec(done),
 
         getPage: (pageNumber, pageSize, condition, done) => {
             model.countDocuments(condition, (error, totalItem) => {
@@ -25,7 +33,9 @@ module.exports = app => {
                     result.pageNumber = pageNumber === -1 ? result.pageTotal : Math.min(pageNumber, result.pageTotal);
 
                     const skipNumber = (result.pageNumber > 0 ? result.pageNumber - 1 : 0) * result.pageSize;
-                    model.find(condition).sort({ title: 1 }).skip(skipNumber).limit(result.pageSize).exec((error, list) => {
+                    model.find(condition).sort({
+                        title: 1
+                    }).skip(skipNumber).limit(result.pageSize).exec((error, list) => {
                         result.list = list;
                         done(error, result);
                     });
@@ -34,13 +44,23 @@ module.exports = app => {
         },
 
         getByActive: (active, done) => {
-            model.find({ active }).sort({ title: -1 }).exec(done);
+            model.find({
+                active
+            }).sort({
+                title: -1
+            }).exec(done);
         },
 
         get: (_id, done) => model.findById(_id, done),
 
         update: (_id, changes, done) => {
-            model.findOneAndUpdate({ _id }, { $set: changes }, { new: true }, done);
+            model.findOneAndUpdate({
+                _id
+            }, {
+                $set: changes
+            }, {
+                new: true
+            }, done);
         },
 
         delete: (_id, done) => {
